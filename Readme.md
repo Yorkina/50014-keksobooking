@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Наталья Ёркина](https://up.htmlacademy.ru/nodejs/1/user/50014).
-* Наставник: `Неизвестно`.
+* Наставник: [Николай Яшин](https://github.com/healqq).
 
 ---
 
