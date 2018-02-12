@@ -1,3 +1,4 @@
+const colors = require(`colors`);
 const author = require(`./author`);
 const description = require(`./description`);
 const license = require(`./license`);
@@ -12,7 +13,7 @@ const COMMANDS = [
 ];
 
 const help = COMMANDS.map(
-    (command) => `${command.name} — ${command.description}`).join(`\n\t`);
+    (command) => `${colors.gray(command.name)} — ${colors.green(command.description)}`).join(`\n\t`);
 
 module.exports = {
   name: `--help`,

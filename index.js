@@ -7,9 +7,8 @@ const unknownCommand = require(`./src/unknownCommand`);
 const version = require(`./src/version`);
 
 const ERROR_EXIT_CODE = 1;
-const DEFAULT_COMMAND_NAME = `default`;
 
-const passedCommand = process.argv[2] || DEFAULT_COMMAND_NAME;
+const passedCommand = process.argv[2] || defaultCommand.name;
 
 let map = new Map();
 map
