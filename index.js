@@ -1,6 +1,7 @@
 const args = process.argv.slice(2);
 
-switch(args[0]) {
+/* eslint no-undefined: "off"*/
+switch (args[0]) {
   case `--help`:
     console.log(`Доступные команды:
     --help    — печатает этот текст;

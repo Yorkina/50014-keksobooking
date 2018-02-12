@@ -1,0 +1,24 @@
+{
+  "name": "keksobooking",
+  "version": "1.0.0",
+  "description": "keksobooking project",
+  "main": "index.js",
+  "scripts": {
+    "test:lint": "eslint .",
+    "test": "npm run test:lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yorkina/50014-keksobooking.git"
+  },
+  "author": "Natalia Yorkina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yorkina/50014-keksobooking/issues"
+  },
+  "homepage": "https://github.com/Yorkina/50014-keksobooking#readme",
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-config-htmlacademy": "^0.4.2"
+  }
+}
