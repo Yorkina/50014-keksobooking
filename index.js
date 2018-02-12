@@ -20,7 +20,6 @@ map
     .set(`${description.name}`, description)
     .set(`${defaultCommand.name}`, defaultCommand);
 
-console.log(map, passedCommand);
 if (map.has(passedCommand)) {
   map.get(passedCommand).execute();
 } else {
