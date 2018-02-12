@@ -16,7 +16,7 @@ const help = COMMANDS.map(
 
 module.exports = {
   name: `--help`,
-  description: `печатает этот текст;`,
+  description: `печатает правила использования приложения`,
   execute() {
     console.log(`Доступные команды:
         ${help}`);

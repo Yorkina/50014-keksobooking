@@ -1,10 +1,8 @@
 const packageInfo = require(`../package.json`);
 
 
-const name = Symbol.for(`default`);
-
 module.exports = {
-  name,
+  name: `default`,
   description: `печатает информацию о приложении`,
   execute() {
     console.log(
