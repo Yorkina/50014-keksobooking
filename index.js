@@ -1,22 +1,28 @@
-const args = process.argv.slice(2);
+const author = require(`./src/author`);
+const defaultCommand = require(`./src/default`);
+const description = require(`./src/description`);
+const help = require(`./src/help`);
+const license = require(`./src/license`);
+const unknownCommand = require(`./src/unknownCommand`);
+const version = require(`./src/version`);
 
-/* eslint no-undefined: "off"*/
-switch (args[0]) {
-  case `--help`:
-    console.log(`Доступные команды:
-    --help    — печатает этот текст;
-    --version — печатает версию приложения;`);
-    break;
-  case `--version`:
-    console.log(`v8.8.9`);
-    break;
-  case undefined:
-    console.log(`Привет пользователь!
-    Эта программа будет запускать сервер «https://github.com/Yorkina/50014-keksobooking».
-    Автор: Кекс.`);
-    break;
-  default:
-    console.error(`Неизвестная команда ${args[0]}.
-    Чтобы прочитать правила использования приложения, наберите "--help"`);
-    process.exitCode = 1;
+const ERROR_EXIT_CODE = 1;
+const DEFAULT_COMMAND_NAME = `default`;
+
+const passedCommand = process.argv[2] || DEFAULT_COMMAND_NAME;
+
+let map = new Map();
+map
+    .set(`${version.name}`, version)
+    .set(`${help.name}`, help)
+    .set(`${author.name}`, author)
+    .set(`${license.name}`, license)
+    .set(`${description.name}`, description)
+    .set(`${defaultCommand.name}`, defaultCommand);
+
+if (map.has(passedCommand)) {
+  map.get(passedCommand).execute();
+} else {
+  unknownCommand.execute();
+  process.exitCode = ERROR_EXIT_CODE;
 }
