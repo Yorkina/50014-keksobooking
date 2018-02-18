@@ -9,7 +9,4 @@ env:
   browser: false
   mocha: true
 
-rules:
-  max-nested-callbacks: [2, 5]
-
 extends: 'htmlacademy/node'
