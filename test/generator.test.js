@@ -8,41 +8,39 @@ describe(`data generated correctly`, () => {
   assert.notEqual(typeof data, `undefined`);
 });
 
-describe(`author.avatar field check`, () => {
-  const data = JSON.parse(generator.generateEntity());
+describe(`author.avatar`, () => {
+  let data;
+  beforeEach(() => {
+    data = JSON.parse(generator.generateEntity());
+  });
 
   it(`should be a string`, () => {
     assert.ok(typeof data.author.avatar === `string`);
   });
 
-  it(`is adress an url`, () => {
+  it(`should be valid url`, () => {
     const regExpToTest = /^((https|http)\:\/\/)/;
     assert.ok(regExpToTest.test(data.author.avatar));
   });
 });
 
 describe(`JSON offer object check`, () => {
-  const data = JSON.parse(generator.generateEntity());
+  let data;
+  beforeEach(() => {
+    data = JSON.parse(generator.generateEntity());
+  });
 
   it(`should exist`, () => {
     assert.notEqual(typeof data.offer, `undefined`);
   });
 
-  describe(`offer.title field check`, () => {
-    it(`should be a string`, () => {
-      assert.ok(typeof data.offer.title === `string`);
-    });
-
+  describe(`offer.title`, () => {
     it(`should have one of the values: ${Data.TITLES}`, () => {
       assert.notEqual(Data.TITLES.indexOf(data.offer.title), -1);
     });
   });
 
-  describe(`offer.address field check`, () => {
-    it(`should exist`, () => {
-      assert.notEqual(typeof data.offer.address, `undefined`);
-    });
-
+  describe(`offer.address`, () => {
     it(`should be a string`, () => {
       assert.ok(typeof data.offer.address === `string`);
     });
@@ -58,11 +56,7 @@ describe(`JSON offer object check`, () => {
     });
   });
 
-  describe(`offer.price field check`, () => {
-    it(`should exist`, () => {
-      assert.notEqual(typeof data.offer.price, `undefined`);
-    });
-
+  describe(`offer.price`, () => {
     it(`should have a num value`, () => {
       assert.equal(typeof data.offer.price, `number`);
     });
@@ -73,17 +67,13 @@ describe(`JSON offer object check`, () => {
     });
   });
 
-  describe(`offer.type field check`, () => {
-    it(`should be a string`, () => {
-      assert.ok(typeof data.offer.type === `string`);
-    });
-
+  describe(`offer.type`, () => {
     it(`should have one of the values: ${Data.PLACE_TYPES}`, () => {
       assert.notEqual(Data.PLACE_TYPES.indexOf(data.offer.type), -1);
     });
   });
 
-  describe(`offer.rooms field check`, () => {
+  describe(`offer.rooms`, () => {
     it(`should have a number value`, () => {
       assert.ok(typeof data.offer.rooms === `number`);
     });
@@ -93,11 +83,7 @@ describe(`JSON offer object check`, () => {
     });
   });
 
-  describe(`offer.guests field check`, () => {
-    it(`should exist`, () => {
-      assert.notEqual(typeof data.offer.guests, `undefined`);
-    });
-
+  describe(`offer.guests`, () => {
     it(`should have a number value`, () => {
       assert.ok(typeof data.offer.guests === `number`);
     });
@@ -107,7 +93,7 @@ describe(`JSON offer object check`, () => {
     });
   });
 
-  describe(`offer.checkin field check`, () => {
+  describe(`offer.checkin`, () => {
     it(`should be a string`, () => {
       assert.ok(typeof data.offer.checkin === `string`);
     });
@@ -117,7 +103,7 @@ describe(`JSON offer object check`, () => {
     });
   });
 
-  describe(`offer.checkout field check`, () => {
+  describe(`offer.checkout`, () => {
     it(`should be a string`, () => {
       assert.ok(typeof data.offer.checkout === `string`);
     });
@@ -127,7 +113,7 @@ describe(`JSON offer object check`, () => {
     });
   });
 
-  describe(`offer.features field check`, () => {
+  describe(`offer.features`, () => {
     it(`must be an array`, () => {
       assert.ok(Array.isArray(data.offer.features));
     });
@@ -137,30 +123,29 @@ describe(`JSON offer object check`, () => {
           data.offer.features.length <= Data.FEATURES.length - 1);
     });
 
-    it(`must contain only this values: ${Data.FEATURES}`, () => {
+    it(`must contains only this values: ${Data.FEATURES}`, () => {
       const comparison = (elem) => Data.FEATURES.includes(elem);
       assert.ok(data.offer.features.every(comparison));
     });
 
     it(`havent duplicated keys`, () => {
-      const features = data.offer.features.slice().sort((a, b) => a > b);
-      features.forEach((feature, index) => {
-        assert.ok(features[index] !== features[index + 1]);
-      });
+      data.offer.features.every((item, index, array) =>
+        array.indexOf(item) === index
+      );
     });
   });
 
-  describe(`offer.description field check`, () => {
+  describe(`offer.description`, () => {
     it(`should be a string`, () => {
       assert.ok(typeof data.offer.description === `string`);
     });
 
-    it(`string value must be empty`, () => {
+    it(`should be empty string`, () => {
       assert.equal(data.offer.description.length, 0);
     });
   });
 
-  describe(`offer.photos field check`, () => {
+  describe(`offer.photos`, () => {
     it(`must be an array`, () => {
       assert.ok(Array.isArray(data.offer.photos));
     });
@@ -172,27 +157,25 @@ describe(`JSON offer object check`, () => {
 });
 
 describe(`JSON location object check`, () => {
-  const data = JSON.parse(generator.generateEntity());
+  let data;
+  beforeEach(() => {
+    data = JSON.parse(generator.generateEntity());
+  });
 
-  describe(`location.x field check`, () => {
-    it(`should exist`, () => {
-      assert.notEqual(typeof data.location.x, `undefined`);
-    });
-
+  describe(`location.x and location.y`, () => {
     it(`should be a number`, () => {
-      assert.ok(typeof data.location.x === `number`);
+      assert.ok(typeof data.location.x === `number` &&
+        typeof data.location.y === `number`);
     });
+  });
 
+  describe(`location.x`, () => {
     it(`should have a value >= 300 and <= 900`, () => {
       assert.ok(data.location.x >= 300 && data.location.x <= 900);
     });
   });
 
-  describe(`location.y field check`, () => {
-    it(`should be a number`, () => {
-      assert.equal(typeof data.location.y, `number`);
-    });
-
+  describe(`location.y`, () => {
     it(`should have a value >= 150 and <= 500`, () => {
       assert.ok(data.location.y >= 150 && data.location.y <= 500);
     });

@@ -13,20 +13,7 @@ const generateEntity = () => {
   const getRandomValue = (arr) => arr[Math.floor(arr.length * Math.random())];
 
   const getArrayWithRandomLength = (arr) => {
-    const newArray = arr.slice(0, arr.length - 1);
-    return newArray.slice(0, getRandomNumber(0, arr.length));
-  };
-
-  const getShuffledArrayString = (arrayToShuffle) => {
-    let temporaryString = [];
-    for (let i = arrayToShuffle.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-
-      temporaryString = arrayToShuffle[i];
-      arrayToShuffle[i] = arrayToShuffle[j];
-      arrayToShuffle[j] = temporaryString;
-    }
-    return temporaryString;
+    return arr.slice(0, getRandomNumber(1, arr.length));
   };
 
   const coordinateX = getRandomNumber(300, 900);
@@ -38,7 +25,7 @@ const generateEntity = () => {
     },
 
     "offer": {
-      "title": getShuffledArrayString(Data.TITLES),
+      "title": getRandomValue(Data.TITLES),
       "address": `${coordinateX}, ${coordinateY}`,
       "price": getRandomNumber(1000, 1000000),
       "type": getRandomValue(Data.PLACE_TYPES),
