@@ -1,7 +1,6 @@
 const Data = require(`./generate`);
 
 const generateEntity = () => {
-
   const getRandomAvatar = () => {
     return `https://robohash.org/${(Math.random() + 1).toString(36).substring(4)}`;
   };
