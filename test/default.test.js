@@ -11,27 +11,27 @@ describe(`Generate JSON file`, () => {
   it(`should create json file`, () => {
     createDataFile({name: PATH, quantity: 10})
         .then(() => {
-          assert.ok(`file generated`);
+          assert.ok(`файл сгенерирован`);
           unlink(PATH);
         })
         .catch((err) => {
-          assert.error(err.message);
-          unlink(PATH);
+          assert.fail(err.message);
         });
   });
 
   it(`can read file`, () => {
     createDataFile({name: PATH, quantity: 10})
-        .then(readFile(PATH, `utf8`))
-        .then((err, data) => {
-          if (err) {
-            assert.error(err);
+        .then(() => readFile(PATH, {encoding: `utf-8`}))
+        .then((data, err) => {
+          if (JSON.parse(data).length < 1 || err) {
+            assert.fail(`не сгенерировались данные`);
           }
-          assert.ok(data.length > 0);
-          unlink(PATH);
         })
         .catch((err) => {
-          assert.error(err.message);
+          assert.fail(err.message);
+        })
+        .then(() => {
+          assert.ok(`файл читается`);
           unlink(PATH);
         });
   });
