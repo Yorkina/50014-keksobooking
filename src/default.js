@@ -5,6 +5,7 @@ const writeFile = util.promisify(fs.writeFile);
 
 const {generateEntity} = require(`../data/generator`);
 const rl = readline.createInterface({input: process.stdin, output: process.stdout});
+const FILE_WRITE_OPTIONS = {encoding: `utf-8`, mode: 0o644};
 
 const createData = (quantity) => {
   const data = [];
@@ -15,23 +16,14 @@ const createData = (quantity) => {
 };
 
 const generateDialog = () => {
-  const reject = () => {
-    console.log(`Значит не сегодня. Пока!`);
-    rl.close();
-  };
-
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const cb = (answer) => answer.trim() === `y` ? resolve() : reject();
     return rl.question(`Сгенерировать данные? (y/n):`, cb);
   });
 };
 
 const createQuantity = () => {
-  const reject = () => {
-    console.log(`Введено некорректное значение`);
-    rl.close();
-  };
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const cb = (quantity) => Number(quantity) > 0 ? resolve({quantity}) : reject();
     return rl.question(`Введите значение целое значение больше ноля: `, cb);
   });
@@ -47,12 +39,7 @@ const createName = (userAnswer) => {
 };
 
 const resolveFileName = (userAnswer) => {
-  const reject = () => {
-    console.log(`Невозможно создать файл`);
-    rl.close();
-  };
-
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const cb = (answer) => answer === `y` ? resolve(userAnswer) : reject();
 
     fs.exists(userAnswer.name, (exists) => {
@@ -64,9 +51,8 @@ const resolveFileName = (userAnswer) => {
 };
 
 const createDataFile = (userAnswer) => {
-  const fileWriteOptions = {encoding: `utf-8`, mode: 0o644};
   const data = createData(userAnswer.quantity);
-  return writeFile(userAnswer.name, JSON.stringify(data), fileWriteOptions)
+  return writeFile(userAnswer.name, JSON.stringify(data), FILE_WRITE_OPTIONS)
       .then(() => rl.close());
 };
 
@@ -80,9 +66,10 @@ module.exports = {
         .then(resolveFileName)
         .then(createDataFile)
         .catch((err) => {
-          console.err(err.message);
+          console.error(err.message);
           rl.close();
         });
   },
-  createDataFile
+  createDataFile,
+  createData
 };

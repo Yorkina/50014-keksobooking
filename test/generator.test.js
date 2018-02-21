@@ -1,21 +1,7 @@
 const assert = require(`assert`);
 const Data = require(`../data/generate`);
-const {createDataFile} = require(`../src/default`);
 const generator = require(`../data/generator`);
-const fs = require(`fs`);
-const {promisify} = require(`util`);
-const access = promisify(fs.access);
-const unlink = promisify(fs.unlink);
 
-
-describe(`Generate JSON file`, () => {
-  it(`should create json file`, () => {
-    const filePath = `${__dirname}/testFile.json`;
-    createDataFile({name: filePath, quantity: 10})
-        .then(() => access(filePath))
-        .then(() => unlink(filePath));
-  });
-});
 
 describe(`data generated correctly`, () => {
   const data = JSON.parse(generator.generateEntity());
