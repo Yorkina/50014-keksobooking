@@ -8,6 +8,10 @@ const rl = readline.createInterface({input: process.stdin, output: process.stdou
 const FILE_WRITE_OPTIONS = {encoding: `utf-8`, mode: 0o644};
 
 const createData = (quantity) => {
+  if (!Number.isInteger(quantity)) {
+    throw new Error(`введите число в правильном формате`);
+  }
+
   const data = [];
   for (let i = 0; i < quantity; i++) {
     data.push(generateEntity());
@@ -70,6 +74,5 @@ module.exports = {
           rl.close();
         });
   },
-  createDataFile,
-  createData
+  createDataFile
 };
