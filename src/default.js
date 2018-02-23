@@ -2,9 +2,9 @@ const fs = require(`fs`);
 const readline = require(`readline`);
 const util = require(`util`);
 const writeFile = util.promisify(fs.writeFile);
+let rl;
 
 const {generateEntity} = require(`../data/generator`);
-const rl = readline.createInterface({input: process.stdin, output: process.stdout});
 const FILE_WRITE_OPTIONS = {encoding: `utf-8`, mode: 0o644};
 
 const createData = (quantity) => {
@@ -59,6 +59,8 @@ module.exports = {
   name: `default`,
   description: `Создает JSON с данными`,
   execute() {
+    rl = readline.createInterface({input: process.stdin, output: process.stdout});
+
     generateDialog()
         .then(createQuantity)
         .then(createName)

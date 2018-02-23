@@ -30,6 +30,9 @@ describe(`Generate JSON file`, () => {
         .catch((err) => {
           assert.fail(err.message);
         })
-        .then(() => unlink(PATH));
+        .then(() => unlink(PATH))
+        .then(() => {
+          assert.ok(`файл читается`);
+        });
   });
 });
