@@ -17,14 +17,16 @@ const createData = (quantity) => {
 
 const generateDialog = () => {
   return new Promise((resolve, reject) => {
-    const cb = (answer) => answer.trim() === `y` ? resolve() : reject();
+    const cb = (answer) => answer.trim() === `y` ? resolve() : reject(
+        new Error(`пользователь не захотел генерировать данные`));
     return rl.question(`Сгенерировать данные? (y/n):`, cb);
   });
 };
 
 const createQuantity = () => {
   return new Promise((resolve, reject) => {
-    const cb = (quantity) => !Number.isInteger(quantity) && Number(quantity) > 0 ? resolve({quantity}) : reject();
+    const cb = (quantity) => !Number.isInteger(quantity) && Number(quantity) > 0 ?
+      resolve({quantity}) : reject(new Error(`пользователь ввел не верное значение`));
     return rl.question(`Введите целое значение больше ноля: `, cb);
   });
 };
@@ -40,7 +42,8 @@ const createName = (userAnswer) => {
 
 const resolveFileName = (userAnswer) => {
   return new Promise((resolve, reject) => {
-    const cb = (answer) => answer === `y` ? resolve(userAnswer) : reject();
+    const cb = (answer) => answer === `y` ? resolve(userAnswer) :
+      reject(new Error(`отказ перезаписать файл`));
 
     fs.exists(userAnswer.name, (exists) => {
       return exists ? rl.question(
