@@ -9,7 +9,7 @@ const PATH = `testFile.json`;
 
 describe(`Generate JSON file`, () => {
   it(`should create json file`, () => {
-    createDataFile({name: PATH, quantity: 10})
+    return createDataFile({name: PATH, quantity: 10})
         .then(() => {
           assert.ok(`файл сгенерирован`);
           unlink(PATH);
@@ -20,7 +20,7 @@ describe(`Generate JSON file`, () => {
   });
 
   it(`can read file`, () => {
-    createDataFile({name: PATH, quantity: 10})
+    return createDataFile({name: PATH, quantity: 10})
         .then(() => readFile(PATH, {encoding: `utf-8`}))
         .then((data, err) => {
           if (JSON.parse(data).length < 1 || err) {
@@ -30,9 +30,6 @@ describe(`Generate JSON file`, () => {
         .catch((err) => {
           assert.fail(err.message);
         })
-        .then(() => {
-          assert.ok(`файл читается`);
-          unlink(PATH);
-        });
+        .then(() => unlink(PATH));
   });
 });

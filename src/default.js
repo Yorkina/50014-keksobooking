@@ -8,10 +8,6 @@ const rl = readline.createInterface({input: process.stdin, output: process.stdou
 const FILE_WRITE_OPTIONS = {encoding: `utf-8`, mode: 0o644};
 
 const createData = (quantity) => {
-  if (!Number.isInteger(quantity)) {
-    throw new Error(`введите число в правильном формате`);
-  }
-
   const data = [];
   for (let i = 0; i < quantity; i++) {
     data.push(generateEntity());
@@ -28,8 +24,8 @@ const generateDialog = () => {
 
 const createQuantity = () => {
   return new Promise((resolve, reject) => {
-    const cb = (quantity) => Number(quantity) > 0 ? resolve({quantity}) : reject();
-    return rl.question(`Введите значение целое значение больше ноля: `, cb);
+    const cb = (quantity) => !Number.isInteger(quantity) && Number(quantity) > 0 ? resolve({quantity}) : reject();
+    return rl.question(`Введите целое значение больше ноля: `, cb);
   });
 };
 
@@ -56,8 +52,7 @@ const resolveFileName = (userAnswer) => {
 
 const createDataFile = (userAnswer) => {
   const data = createData(userAnswer.quantity);
-  return writeFile(userAnswer.name, JSON.stringify(data), FILE_WRITE_OPTIONS)
-      .then(() => rl.close());
+  return writeFile(userAnswer.name, JSON.stringify(data), FILE_WRITE_OPTIONS);
 };
 
 module.exports = {
@@ -71,8 +66,8 @@ module.exports = {
         .then(createDataFile)
         .catch((err) => {
           console.error(err.message);
-          rl.close();
-        });
+        })
+        .then(() => rl.close());
   },
   createDataFile
 };

@@ -4,14 +4,14 @@ const generator = require(`../data/generator`);
 
 
 describe(`data generated correctly`, () => {
-  const data = JSON.parse(generator.generateEntity());
+  const data = JSON.parse(JSON.stringify(generator.generateEntity()));
   assert.notEqual(typeof data, `undefined`);
 });
 
 describe(`author.avatar`, () => {
   let data;
   beforeEach(() => {
-    data = JSON.parse(generator.generateEntity());
+    data = JSON.parse(JSON.stringify(generator.generateEntity()));
   });
 
   it(`should be a string`, () => {
@@ -27,7 +27,7 @@ describe(`author.avatar`, () => {
 describe(`JSON offer object check`, () => {
   let data;
   beforeEach(() => {
-    data = JSON.parse(generator.generateEntity());
+    data = JSON.parse(JSON.stringify(generator.generateEntity()));
   });
 
   it(`should exist`, () => {
@@ -159,7 +159,7 @@ describe(`JSON offer object check`, () => {
 describe(`JSON location object check`, () => {
   let data;
   beforeEach(() => {
-    data = JSON.parse(generator.generateEntity());
+    data = JSON.parse(JSON.stringify(generator.generateEntity()));
   });
 
   describe(`location.x and location.y`, () => {

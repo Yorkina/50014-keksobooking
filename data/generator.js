@@ -18,7 +18,7 @@ const generateEntity = () => {
   const coordinateX = getRandomNumber(300, 900);
   const coordinateY = getRandomNumber(150, 500);
 
-  const data = {
+  return {
     "author": {
       "avatar": getRandomAvatar()
     },
@@ -42,8 +42,6 @@ const generateEntity = () => {
       "y": coordinateY
     }
   };
-
-  return JSON.stringify(data);
 };
 
 module.exports = {
