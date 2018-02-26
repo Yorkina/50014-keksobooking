@@ -3,6 +3,7 @@ const defaultCommand = require(`./src/default`);
 const description = require(`./src/description`);
 const help = require(`./src/help`);
 const license = require(`./src/license`);
+const server = require(`./src/server`);
 const unknownCommand = require(`./src/unknownCommand`);
 const version = require(`./src/version`);
 
@@ -17,7 +18,8 @@ map
     .set(`${author.name}`, author)
     .set(`${license.name}`, license)
     .set(`${description.name}`, description)
-    .set(`${defaultCommand.name}`, defaultCommand);
+    .set(`${defaultCommand.name}`, defaultCommand)
+    .set(`${server.name}`, server);
 
 if (map.has(passedCommand)) {
   map.get(passedCommand).execute();
