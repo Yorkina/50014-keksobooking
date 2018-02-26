@@ -3,7 +3,7 @@ const url = require(`url`);
 const path = require(`path`);
 const fs = require(`fs`);
 const {promisify} = require(`util`);
-const readfile = promisify(fs.readFile);
+const readFile = promisify(fs.readFile);
 
 const mimeTypes = {
   '.ico': `image/x-icon`,
@@ -19,7 +19,7 @@ const STATUS_CODE = 200;
 
 const createResponse = (request) => {
   return new Promise(() => {
-    readfile(request.absolutePath)
+    readFile(request.absolutePath)
         .then((data) => {
           request.res.statusCode = STATUS_CODE;
           request.res.statusMessage = `OK`;
