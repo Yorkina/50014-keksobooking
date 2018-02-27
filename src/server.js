@@ -32,7 +32,7 @@ const createResponse = (request) => {
           request.res.end(data);
         })
         .catch((err) => {
-          request.res.whriteHead(statusCodes.CODE_READ_ERROR, `Not Found`);
+          request.res.writeHead(statusCodes.CODE_READ_ERROR, `Not Found`);
           request.res.end();
           console.error(`Ошибка чтения данных сервера:`, err);
         });
@@ -55,7 +55,7 @@ const server = http.createServer((req, res) => {
   createRequest(req, res)
       .then(createResponse)
       .catch((err) => {
-        res.whriteHead(statusCodes.CODE_SERVER_ERROR, `Internal Server Error`);
+        res.writeHead(statusCodes.CODE_SERVER_ERROR, `Internal Server Error`);
         res.end(err);
         console.error(`Ошибка запуска сервера:`, err);
       });
