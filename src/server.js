@@ -13,20 +13,29 @@ const mimeTypes = {
   '.css': `text/css`,
 };
 
+const statusCodes = {
+  CODE_READ_ERROR: 404,
+  CODE_SERVER_ERROR: 500,
+  CODE_SUCCESS: 200
+};
+
 const HOST = `127.0.0.1`;
 const PORT = process.argv[3] || 3000;
-const STATUS_CODE = 200;
 
 const createResponse = (request) => {
   return new Promise(() => {
     readFile(request.absolutePath)
         .then((data) => {
-          request.res.statusCode = STATUS_CODE;
+          request.res.statusCode = statusCodes.CODE_SUCCESS;
           request.res.statusMessage = `OK`;
           request.res.setHeader(`content-type`, mimeTypes[request.fileExtension]);
           request.res.end(data);
         })
-        .catch((err) => console.error(`Ошибка чтения данных сервера:`, err));
+        .catch((err) => {
+          request.res.whriteHead(statusCodes.CODE_READ_ERROR, `Not Found`);
+          request.res.end();
+          console.error(`Ошибка чтения данных сервера:`, err);
+        });
   });
 };
 
@@ -46,6 +55,8 @@ const server = http.createServer((req, res) => {
   createRequest(req, res)
       .then(createResponse)
       .catch((err) => {
+        res.whriteHead(statusCodes.CODE_SERVER_ERROR, `Internal Server Error`);
+        res.end(err);
         console.error(`Ошибка запуска сервера:`, err);
       });
 });
