@@ -4,16 +4,8 @@ const util = require(`util`);
 const writeFile = util.promisify(fs.writeFile);
 let rl;
 
-const {generateEntity} = require(`../data/generator`);
+const {createData} = require(`../data/generator`);
 const FILE_WRITE_OPTIONS = {encoding: `utf-8`, mode: 0o644};
-
-const createData = (quantity) => {
-  const data = [];
-  for (let i = 0; i < quantity; i++) {
-    data.push(generateEntity());
-  }
-  return data;
-};
 
 const generateDialog = () => {
   return new Promise((resolve, reject) => {
