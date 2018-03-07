@@ -25,7 +25,7 @@ const testData = {
 
 describe(`GET /api/offers`, () => {
 
-  it(`response with JSON, contain objects with 3 keys (author, offer, location)`, () => {
+  it(`object should have 3 keys (author, offer, location)`, () => {
     return request(app)
         .get(`/api/offers?limit=${TEST_LIMIT}&skip=${TEST_SKIP}`)
         .set(`Accept`, `application/json`)
@@ -34,9 +34,22 @@ describe(`GET /api/offers`, () => {
         .then((response) => {
           const offer = response.body[0];
           const isKeysValid = offer[`location`] && offer[`author`] && offer[`offer`];
-          assert.equal({}.toString.call(offer) === `[object Object]`, true);
-          assert.equal(response.body.length, TEST_LIMIT - TEST_SKIP);
           assert.ok(isKeysValid);
+          assert.equal(response.body.length, TEST_LIMIT - TEST_SKIP);
+        });
+  });
+
+  it(`object should have 3 keys (author, offer, location)`, () => {
+    return request(app)
+        .get(`/api/offers`)
+        .set(`Accept`, `application/json`)
+        .expect(200)
+        .expect(`Content-Type`, /json/)
+        .then((response) => {
+          const offer = response.body[0];
+          const isKeysValid = offer[`location`] && offer[`author`] && offer[`offer`];
+          assert.ok(isKeysValid);
+          assert.equal(response.body.length, 10);
         });
   });
 
@@ -70,6 +83,14 @@ describe(`GET /api/offers/:date`, () => {
         .then((response) => {
           assert.equal(response.body.date, date);
         });
+  });
+
+  it(`should return 404 if offer hasnt date`, async () => {
+    const testDate = 233333;
+    return request(app)
+        .get(`/api/offers/${testDate}`)
+        .set(`Accept`, `application/json`)
+        .expect(404);
   });
 });
 

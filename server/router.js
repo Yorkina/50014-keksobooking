@@ -13,11 +13,13 @@ let offers = [];
 router.use(bodyParser.json());
 
 router.get(``, (req, res) => {
-  const validSkipInteger = (typeof `number` && req.query.skip >= 0) ?
-    parseInt(req.query.skip, 10) : MIN_REQUEST_SKIP;
-  const validLimitInteger = (typeof `number` && req.query.limit >= 0) ?
-    parseInt(req.query.limit, 10) : MAX_REQUEST_LIMIT;
+  const limit = Number(req.query.limit);
+  const validLimitInteger = (parseInt(limit, 10) === limit && limit > 0) ? limit :
+    MAX_REQUEST_LIMIT;
 
+  const skip = Number(req.query.skip);
+  const validSkipInteger = (parseInt(skip, 10) === skip && skip > 0) ? skip :
+    MIN_REQUEST_SKIP;
 
   offers = generator.createData(validLimitInteger).slice(validSkipInteger);
   res.send(offers);
