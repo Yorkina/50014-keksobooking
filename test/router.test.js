@@ -40,8 +40,9 @@ describe(`GET /api/offers`, () => {
   });
 
   it(`object should have 3 keys (author, offer, location)`, () => {
+    const testParam = `bla`;
     return request(app)
-        .get(`/api/offers`)
+        .get(`/api/offers?limit=${testParam}&skip=${testParam}`)
         .set(`Accept`, `application/json`)
         .expect(200)
         .expect(`Content-Type`, /json/)
