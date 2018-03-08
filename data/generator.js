@@ -40,10 +40,20 @@ const generateEntity = () => {
     "location": {
       "x": coordinateX,
       "y": coordinateY
-    }
+    },
+    "date": new Date().setDate(getRandomNumber(1, 28))
   };
 };
 
+const createData = (quantity) => {
+  const data = [];
+  for (let i = 0; i < quantity; i++) {
+    data.push(generateEntity());
+  }
+  return data;
+};
+
 module.exports = {
-  generateEntity
+  generateEntity,
+  createData
 };
