@@ -4,9 +4,13 @@ const multer = require(`multer`);
 const upload = multer({storage: multer.memoryStorage()});
 const {Router} = require(`express`);
 const router = new Router();
+const {validateSchema} = require(`../util/validator`);
+const offersValidation = require(`../util/validation`);
+const ValidationError = require(`../util/error`);
 
-const MAX_REQUEST_LIMIT = 10;
+const MAX_REQUEST_LIMIT = 1;
 const MIN_REQUEST_SKIP = 0;
+const DEFAULT_NAMES = [`Keks`, `Pavel`, `Nikolay`, `Alex`, `Ulyana`, `Anastasyia`, `Julia`];
 
 let offers = [];
 
@@ -35,8 +39,31 @@ router.get(`/:date`, (req, res) => {
   }
 });
 
-router.post(``, upload.none(), (req, res) => {
-  res.send(req.body);
+const images = upload.fields([{name: `avatar`, maxCount: 1}, {name: `preview`, maxCount: 1}]);
+router.post(``, images, (req, res) => {
+  const data = req.body;
+  const dataForValidation = Object.assign({}, req.body);
+
+  data.name = data.name || DEFAULT_NAMES[Math.floor(Math.random() * DEFAULT_NAMES.length)];
+  dataForValidation.avatar = req.files[`avatar`][0];
+  dataForValidation.preview = req.files[`preview`][0];
+
+  const errors = validateSchema(dataForValidation, offersValidation);
+
+  if (errors.length > 0) {
+    throw new ValidationError(errors);
+  }
+
+  res.send(data);
+});
+
+router.use((exception, req, res, next) => {
+  let data = exception;
+  if (exception instanceof ValidationError) {
+    data = exception.errors;
+  }
+  res.status(400).send(data);
+  next();
 });
 
 module.exports = {

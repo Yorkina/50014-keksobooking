@@ -1,10 +1,6 @@
 const Data = require(`./generate`);
 
 const generateEntity = () => {
-  const getRandomAvatar = () => {
-    return `https://robohash.org/${(Math.random() + 1).toString(36).substring(4)}`;
-  };
-
   const getRandomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min)) + min;
   };
@@ -13,6 +9,10 @@ const generateEntity = () => {
 
   const getArrayWithRandomLength = (arr) => {
     return arr.slice(0, getRandomNumber(1, arr.length));
+  };
+
+  const getRandomAvatar = () => {
+    return `https://robohash.org/${(Math.random() + 1).toString(36).substring(4)}`;
   };
 
   const coordinateX = getRandomNumber(300, 900);
