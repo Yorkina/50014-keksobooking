@@ -64,7 +64,6 @@ router.post(``, images, (req, res) => {
 
 router.use((exception, req, res, next) => {
   let data = exception;
-  console.log(`@@@@@@@@`, data);
   if (exception instanceof ValidationError) {
     data = exception.errors;
   }
