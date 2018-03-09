@@ -42,13 +42,18 @@ router.get(`/:date`, (req, res) => {
 const images = upload.fields([{name: `avatar`, maxCount: 1}, {name: `preview`, maxCount: 1}]);
 router.post(``, images, (req, res) => {
   const data = req.body;
-  const dataForValidation = Object.assign({}, req.body);
-
+  console.log(`@@@@@@@@@@@@`, req.body);
   data.name = data.name || DEFAULT_NAMES[Math.floor(Math.random() * DEFAULT_NAMES.length)];
-  dataForValidation.avatar = req.files[`avatar`][0];
-  dataForValidation.preview = req.files[`preview`][0];
+  let errors;
 
-  const errors = validateSchema(data, offersValidation);
+  if (req.get(`Accept`) && req.get(`Accept`).includes(`application/json`)) {
+    errors = validateSchema(data, offersValidation);
+  } else {
+    const dataForValidation = Object.assign({}, req.body);
+    dataForValidation.avatar = req.files[`avatar`][0];
+    dataForValidation.preview = req.files[`preview`][0];
+    errors = validateSchema(dataForValidation, offersValidation);
+  }
 
   if (errors.length > 0) {
     throw new ValidationError(errors);
@@ -59,6 +64,7 @@ router.post(``, images, (req, res) => {
 
 router.use((exception, req, res, next) => {
   let data = exception;
+  console.log(`@@@@@@@@`, data);
   if (exception instanceof ValidationError) {
     data = exception.errors;
   }

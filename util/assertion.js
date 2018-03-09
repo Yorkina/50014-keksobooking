@@ -23,7 +23,7 @@ module.exports = {
       assert(number) {
         return +number >= from && +number <= to;
       },
-      message: `should be in range ${from}..${to}`
+      message: `should be a number in range ${from}..${to}`
     };
   },
   isTextInRange(from, to) {
@@ -31,7 +31,7 @@ module.exports = {
       assert(text) {
         return text.length >= from && text.length <= to;
       },
-      message: `should be in range ${from}..${to}`
+      message: `should be a string with length in range ${from}..${to}`
     };
   },
   isImage() {
@@ -45,10 +45,14 @@ module.exports = {
   isDataTime() {
     return {
       assert(data) {
+        if (typeof data !== `string`) {
+          return false;
+        }
+
         let [hh, mm] = data.split(`:`);
         return (hh >= 0 && hh < 24 && mm >= 0 && mm < 60);
       },
-      message: `should be a string "hh:mm"`
+      message: `should be a string in format "hh:mm"`
     };
   },
   isText() {

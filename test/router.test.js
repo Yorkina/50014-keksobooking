@@ -98,6 +98,7 @@ describe(`GET /api/offers/:date`, () => {
 describe(`POST /offers`, () => {
   it(`should consume JSON`, () => {
     return request(app).post(`/api/offers`)
+        .set(`Accept`, `application/json`)
         .send(testData)
         .expect(200, testData);
   });
@@ -131,4 +132,21 @@ describe(`POST /offers`, () => {
         .expect(200, testData);
   });
 
+  it(`should fail if hasnt required fields`, () => {
+    return request(app).post(`/api/offers`)
+        .field(`title`, testData.title)
+        .field(`type`, testData.type)
+        .field(`price`, testData.price)
+        .field(`address`, testData.address)
+        .field(`rooms`, testData.rooms)
+        .field(`checkin`, testData.checkin)
+        .attach(`avatar`, `test/avatar.png`)
+        .attach(`preview`, `test/avatar.png`)
+        .expect(400, [
+          {
+            fieldName: `checkout`,
+            errorMessage: `is required`
+          }
+        ]);
+  });
 });

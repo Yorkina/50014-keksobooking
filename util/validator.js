@@ -49,5 +49,6 @@ const validateSchema = (data, schema) => {
 };
 
 module.exports = {
-  validateSchema
+  validateSchema,
+  validate
 };
