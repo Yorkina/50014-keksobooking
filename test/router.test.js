@@ -97,12 +97,9 @@ describe(`GET /api/offers/:date`, () => {
 
 describe(`POST /offers`, () => {
   it(`should consume JSON`, () => {
-    const dataForTest = generator.generateEntity();
-    dataForTest.name = `Keks`;
     return request(app).post(`/api/offers`)
-        .send(dataForTest)
-        .expect(200)
-        .expect(200, dataForTest);
+        .send(testData)
+        .expect(200, testData);
   });
 
   it(`should return 404 if path is wrong`, () => {

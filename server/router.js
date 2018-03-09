@@ -48,7 +48,7 @@ router.post(``, images, (req, res) => {
   dataForValidation.avatar = req.files[`avatar`][0];
   dataForValidation.preview = req.files[`preview`][0];
 
-  const errors = validateSchema(dataForValidation, offersValidation);
+  const errors = validateSchema(data, offersValidation);
 
   if (errors.length > 0) {
     throw new ValidationError(errors);
