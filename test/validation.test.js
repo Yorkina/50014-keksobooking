@@ -168,10 +168,10 @@ describe(`validate fields`, () => {
   describe(`'features' field validation`, () => {
     const fieldName = `features`;
 
-    it(`should be one of the values`, () => {
-      assertField(fieldName, 200, `should be one of [dishwasher,elevator,conditioner,parking,washer,wifi]`);
-      assertField(fieldName, `hostel`, `should be one of [dishwasher,elevator,conditioner,parking,washer,wifi]`);
-      assertField(fieldName, [], `should be one of [dishwasher,elevator,conditioner,parking,washer,wifi]`);
+    it(`should contains in array`, () => {
+      assertField(fieldName, 200, `should contains in array [dishwasher,elevator,conditioner,parking,washer,wifi] and be unique`);
+      assertField(fieldName, `hostel`, `should contains in array [dishwasher,elevator,conditioner,parking,washer,wifi] and be unique`);
+      assertField(fieldName, [`bla`], `should contains in array [dishwasher,elevator,conditioner,parking,washer,wifi] and be unique`);
     });
 
   });

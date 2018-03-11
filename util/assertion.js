@@ -7,17 +7,15 @@ const oneOf = (types) => {
   };
 };
 
+const anyOfTypes = (types, options) => {
+  return options.every((type) => {
+    return types.includes(type);
+  });
+};
+
+
 module.exports = {
   oneOf,
-  anyOf(types) {
-    return {
-      assert(options) {
-        const assertion = oneOf(types);
-        return options.every((it) => assertion.assert(it));
-      },
-      message: `should be any of [${types}]`
-    };
-  },
   isNumberInRange(from, to) {
     return {
       assert(number) {
@@ -62,5 +60,23 @@ module.exports = {
       },
       message: `should be a string`
     };
-  }
+  },
+  isUniqueAndContains(types) {
+    return {
+      assert(options) {
+        if (!Array.isArray(options)) {
+          return false;
+        }
+
+        const isContains = anyOfTypes(types, options);
+        if (isContains) {
+          const set = new Set(options);
+          return set.size === options.length;
+        } else {
+          return false;
+        }
+      },
+      message: `should contains in array [${types}] and be unique`
+    };
+  },
 };

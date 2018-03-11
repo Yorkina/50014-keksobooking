@@ -4,7 +4,8 @@ const {
   oneOf,
   isNumberInRange,
   isDataTime,
-  isText
+  isText,
+  isUniqueAndContains
 } = require(`./assertion`);
 
 const TYPES = [`flat`, `house`, `bungalo`, `palace`];
@@ -68,7 +69,7 @@ const schema = {
   'features': {
     required: false,
     assertions: [
-      oneOf(FEATURES)
+      isUniqueAndContains(FEATURES)
     ]
   },
   'name': {
