@@ -7,20 +7,20 @@ const TEST_LIMIT = 7;
 const TEST_SKIP = 3;
 
 const testData = {
-  "avatar": `https://robohash.org/sptja1zgh`,
   "title": `Уютное бунгало далеко от моря`,
   "address": `867, 370`,
-  "price": 567683,
+  "price": `56768`,
   "type": `bungalo`,
-  "rooms": 2,
-  "guests": 7,
+  "rooms": `2`,
+  "guests": `7`,
   "checkin": `13:00`,
   "checkout": `13:00`,
   "features": `dishwasher`,
   "description": ``,
   "photos": `http://o0.github.io/assets/images/tokyo/hotel1.jpg`,
   "locationX": `867`,
-  "locationY": `370`
+  "locationY": `370`,
+  "name": `Keks`
 };
 
 describe(`GET /api/offers`, () => {
@@ -50,7 +50,7 @@ describe(`GET /api/offers`, () => {
           const offer = response.body[0];
           const isKeysValid = offer[`location`] && offer[`author`] && offer[`offer`];
           assert.ok(isKeysValid);
-          assert.equal(response.body.length, 10);
+          assert.equal(response.body.length, 1);
         });
   });
 
@@ -96,11 +96,10 @@ describe(`GET /api/offers/:date`, () => {
 });
 
 describe(`POST /offers`, () => {
-
   it(`should consume JSON`, () => {
     return request(app).post(`/api/offers`)
+        .set(`Accept`, `application/json`)
         .send(testData)
-        .expect(200)
         .expect(200, testData);
   });
 
@@ -114,7 +113,6 @@ describe(`POST /offers`, () => {
 
   it(`should consume form-data`, () => {
     return request(app).post(`/api/offers`)
-        .field(`avatar`, testData.avatar)
         .field(`title`, testData.title)
         .field(`address`, testData.address)
         .field(`price`, testData.price)
@@ -128,7 +126,27 @@ describe(`POST /offers`, () => {
         .field(`photos`, testData.photos)
         .field(`locationX`, testData.locationX)
         .field(`locationY`, testData.locationY)
+        .field(`name`, `Keks`)
+        .attach(`avatar`, `test/avatar.png`)
+        .attach(`preview`, `test/avatar.png`)
         .expect(200, testData);
   });
 
+  it(`should fail if hasnt required fields`, () => {
+    return request(app).post(`/api/offers`)
+        .field(`title`, testData.title)
+        .field(`type`, testData.type)
+        .field(`price`, testData.price)
+        .field(`address`, testData.address)
+        .field(`rooms`, testData.rooms)
+        .field(`checkin`, testData.checkin)
+        .attach(`avatar`, `test/avatar.png`)
+        .attach(`preview`, `test/avatar.png`)
+        .expect(400, [
+          {
+            fieldName: `checkout`,
+            errorMessage: `is required`
+          }
+        ]);
+  });
 });
