@@ -129,11 +129,5 @@ router.use((exception, req, res, next) => {
   next();
 });
 
-// const startRouter = (offersStore, imageStore) => {
-//   router.offersStore = offersStore;
-//   router.imageStore = imageStore;
-//   return router;
-// };
-
 module.exports = router;
 
