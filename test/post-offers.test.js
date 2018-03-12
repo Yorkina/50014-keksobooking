@@ -119,7 +119,7 @@ describe(`POST /offers`, () => {
         });
   });
 
-  it(`should fail and show error messages`, () => {
+  it(`should fail and show error message`, () => {
     return request(app).post(`/api/offers`)
         .field(`title`, mock.offer.title)
         .field(`type`, `bla`)
@@ -129,16 +129,6 @@ describe(`POST /offers`, () => {
         .field(`checkin`, mock.offer.checkin)
         .attach(`avatar`, `test/avatar.png`)
         .attach(`preview`, `test/avatar.png`)
-        .expect(400, [
-          {
-            fieldName: `type`,
-            fieldValue: `bla`,
-            errorMessage: `should be one of [flat,house,bungalo,palace]`
-          },
-          {
-            fieldName: `checkout`,
-            errorMessage: `is required`
-          }
-        ]);
+        .expect(400);
   });
 });

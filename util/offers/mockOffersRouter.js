@@ -1,4 +1,4 @@
-const createOffersRouter = require(`../../server/router`);
+const StartRouter = require(`../../server/start-router`);
 const generator = require(`../../data/generator`);
 
 const offers = [...new Array(10)]
@@ -55,5 +55,6 @@ class MockImageStore {
   }
 
 }
-
-module.exports = createOffersRouter(new MockOffersStore(), new MockImageStore());
+const offersRouter = new StartRouter(new MockOffersStore(),
+    new MockImageStore()).getRouterWithStores();
+module.exports = offersRouter;

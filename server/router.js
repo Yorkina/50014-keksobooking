@@ -1,4 +1,3 @@
-const generator = require(`../data/generator`);
 const bodyParser = require(`body-parser`);
 const multer = require(`multer`);
 const upload = multer({storage: multer.memoryStorage()});
@@ -29,13 +28,14 @@ router.get(``, async(async (req, res) => {
   const validSkipInteger = (parseInt(skip, 10) === skip && skip > 0) ? skip :
     MIN_REQUEST_SKIP;
 
-  offers = await generator.createData(validLimitInteger);
-  res.send(offers.slice(validSkipInteger));
+  offers = await router.offersStore.getOffers();
+  const offersToSend = offers.slice(0, validLimitInteger).slice(validSkipInteger);
+  res.send(offersToSend);
 }));
 
 router.get(`/:date`, async(async (req, res) => {
   const date = parseInt(req.params.date, 10);
-  const offer = offers.find((it) => it.date === date);
+  const offer = await router.offersStore.getOfferByDate(date);
   if (!offer) {
     res.status(404).end();
   } else {
@@ -129,10 +129,11 @@ router.use((exception, req, res, next) => {
   next();
 });
 
-const startRouter = (offersStore, imageStore) => {
-  router.offersStore = offersStore;
-  router.imageStore = imageStore;
-  return router;
-};
+// const startRouter = (offersStore, imageStore) => {
+//   router.offersStore = offersStore;
+//   router.imageStore = imageStore;
+//   return router;
+// };
 
-module.exports = startRouter;
+module.exports = router;
+

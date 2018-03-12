@@ -1,6 +1,9 @@
 const assert = require(`assert`);
 const request = require(`supertest`);
-const {app} = require(`../src/server.js`);
+const mockOffersRouter = require(`../util/offers/mockOffersRouter`);
+const app = require(`express`)();
+
+app.use(`/api/offers`, mockOffersRouter);
 
 const TEST_LIMIT = 7;
 const TEST_SKIP = 3;

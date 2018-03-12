@@ -1,5 +1,5 @@
 const express = require(`express`);
-const router = require(`../server/router`);
+const StartRouter = require(`../server/start-router`);
 const createOffersStore = require(`../server/store`);
 const imageStore = require(`../server/images/store`);
 
@@ -8,7 +8,7 @@ const PORT = process.argv[3] || 3000;
 const app = express();
 app.use(express.static(`static`));
 const offersStore = createOffersStore();
-const offersRouter = router(offersStore, imageStore);
+const offersRouter = new StartRouter(offersStore, imageStore).getRouterWithStores();
 app.use(`/api/offers`, offersRouter);
 
 module.exports = {
