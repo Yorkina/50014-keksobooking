@@ -5,7 +5,7 @@ const errors = path.resolve(process.cwd(), `errors.log`);
 const combined = path.resolve(process.cwd(), `combined.log`);
 
 const logger = winston.createLogger({
-  level: `silly`,
+  level: process.env.SERVER_LOG_LEVEL || `silly`,
   format: winston.format.json(),
   transports: [
     new winston.transports.File({filename: errors, level: `error`}),
