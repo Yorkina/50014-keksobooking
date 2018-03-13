@@ -1,27 +1,12 @@
 const assert = require(`assert`);
 const request = require(`supertest`);
-const {app} = require(`../src/server.js`);
-const generator = require(`../data/generator`);
+const mockOffersRouter = require(`../util/offers/mockOffersRouter`);
+const app = require(`express`)();
+
+app.use(`/api/offers`, mockOffersRouter);
 
 const TEST_LIMIT = 7;
 const TEST_SKIP = 3;
-
-const testData = {
-  "avatar": `https://robohash.org/sptja1zgh`,
-  "title": `Уютное бунгало далеко от моря`,
-  "address": `867, 370`,
-  "price": 567683,
-  "type": `bungalo`,
-  "rooms": 2,
-  "guests": 7,
-  "checkin": `13:00`,
-  "checkout": `13:00`,
-  "features": `dishwasher`,
-  "description": ``,
-  "photos": `http://o0.github.io/assets/images/tokyo/hotel1.jpg`,
-  "locationX": `867`,
-  "locationY": `370`
-};
 
 describe(`GET /api/offers`, () => {
 
@@ -93,42 +78,4 @@ describe(`GET /api/offers/:date`, () => {
         .set(`Accept`, `application/json`)
         .expect(404);
   });
-});
-
-describe(`POST /offers`, () => {
-
-  it(`should consume JSON`, () => {
-    return request(app).post(`/api/offers`)
-        .send(testData)
-        .expect(200)
-        .expect(200, testData);
-  });
-
-  it(`should return 404 if path is wrong`, () => {
-    const data = generator.generateEntity();
-    return request(app).post(`/api/offersdsfdsf`)
-        .send(data)
-        .expect(404)
-        .expect(`Content-type`, /html/);
-  });
-
-  it(`should consume form-data`, () => {
-    return request(app).post(`/api/offers`)
-        .field(`avatar`, testData.avatar)
-        .field(`title`, testData.title)
-        .field(`address`, testData.address)
-        .field(`price`, testData.price)
-        .field(`type`, testData.type)
-        .field(`rooms`, testData.rooms)
-        .field(`guests`, testData.guests)
-        .field(`checkin`, testData.checkin)
-        .field(`checkout`, testData.checkout)
-        .field(`features`, testData.features)
-        .field(`description`, testData.description)
-        .field(`photos`, testData.photos)
-        .field(`locationX`, testData.locationX)
-        .field(`locationY`, testData.locationY)
-        .expect(200, testData);
-  });
-
 });
