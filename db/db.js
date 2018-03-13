@@ -1,5 +1,6 @@
 const {MongoClient} = require(`mongodb`);
 const logger = require(`../util/logger`);
+require(`dotenv`).config();
 
 const DB_URL = process.env.DB_HOST || `mongodb://localhost:27017`;
 
