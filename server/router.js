@@ -8,17 +8,23 @@ const offersValidation = require(`../util/validation`);
 const ValidationError = require(`../util/error`);
 const bufferToStream = require(`../util/bufferToStream`);
 const restruct = require(`../util/restruct`);
+const logger = require(`../util/logger`);
 
 
 const MAX_REQUEST_LIMIT = 10;
 const MIN_REQUEST_SKIP = 0;
 const DEFAULT_NAMES = [`Keks`, `Pavel`, `Nikolay`, `Alex`, `Ulyana`, `Anastasyia`, `Julia`];
 
-const async = (fn) => (req, res, next) => fn(req, res, next).catch(next);
-
 let offers = [];
 
+const async = (fn) => (req, res, next) => fn(req, res, next).catch(next);
+
 router.use(bodyParser.json());
+router.use((req, res, next) => {
+  res.header(`Access-Control-Allow-Origin`, `*`);
+  res.header(`Access-Control-Allow-Headers`, `Origin, X-Requested-With, Content-Type, Accept`);
+  next();
+});
 
 router.get(``, async(async (req, res) => {
   const limit = Number(req.query.limit);
@@ -115,6 +121,8 @@ router.post(``, images, async(async (req, res) => {
   }
 
   const offer = restruct(data);
+
+  logger.info(`Data from user: ${JSON.stringify(offer)}`);
   await router.offersStore.saveOffer(offer);
 
   res.send(offer);
@@ -131,4 +139,3 @@ router.use((exception, req, res, next) => {
 });
 
 module.exports = router;
-

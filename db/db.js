@@ -1,7 +1,7 @@
 const {MongoClient} = require(`mongodb`);
 const logger = require(`../util/logger`);
 
-const DB_URL = process.env.DB_HOST;
+const DB_URL = process.env.DB_HOST || `mongodb://localhost:27017`;
 
 module.exports = () => MongoClient.connect(DB_URL)
     .then((client) => client.db(`keksobooking`))
