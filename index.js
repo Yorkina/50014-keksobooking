@@ -4,7 +4,7 @@ const description = require(`./src/description`);
 const help = require(`./src/help`);
 const license = require(`./src/license`);
 const server = require(`./src/server`);
-const unknownCommand = require(`./src/unknownCommand`);
+const unknownCommand = require(`./src/unknown-command`);
 const version = require(`./src/version`);
 require(`dotenv`).config();
 

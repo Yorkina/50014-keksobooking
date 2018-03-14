@@ -6,7 +6,7 @@ const router = new Router();
 const {validateSchema} = require(`../util/validator`);
 const offersValidation = require(`../util/validation`);
 const ValidationError = require(`../util/error`);
-const bufferToStream = require(`../util/bufferToStream`);
+const bufferToStream = require(`../util/buffer-to-stream`);
 const restruct = require(`../util/restruct`);
 const logger = require(`../util/logger`);
 
