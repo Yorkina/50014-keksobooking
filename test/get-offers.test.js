@@ -35,7 +35,7 @@ describe(`GET /api/offers`, () => {
           const offer = response.body[0];
           const isKeysValid = offer[`location`] && offer[`author`] && offer[`offer`];
           assert.ok(isKeysValid);
-          assert.equal(response.body.length, 1);
+          assert.equal(response.body.length, 10);
         });
   });
 

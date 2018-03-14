@@ -6,6 +6,7 @@ const license = require(`./src/license`);
 const server = require(`./src/server`);
 const unknownCommand = require(`./src/unknownCommand`);
 const version = require(`./src/version`);
+require(`dotenv`).config();
 
 const ERROR_EXIT_CODE = 1;
 
